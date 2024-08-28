@@ -1,0 +1,33 @@
+
+
+
+#comandos para usuarios denegados;;
+
+
+#carpeta que utilizamos denied_users 
+
+sudo nano /etc/security/denied_users 
+
+#en ese archivo se escriben ususarios que no queremos que accedan a nuestro directorio, se hace la prueba con miguel y William
+
+sudo nano /etc/pam.d/apache2
+
+#con este comando les quitamos el acceso a los usuarios que esten en el directorio
+auth required pam_listfile.so item=user sense=deny file=/etc/security/denied_users onerr=succeed
+
+#para cproteger el directorio y que solo puedan ingresar los autorizados 
+sudo nano /etc/apache2/sites-available/000-default.conf
+
+el archivo nos queda asi 
+<Directory /var/www/html/archivos_privados>
+    AuthType Basic
+    AuthName "Directorio Protegido"
+    AuthBasicProvider PAM
+    AuthPAMService apache2
+    Require valid-user
+</Directory>
+
+
+#para agregar usuarios que puedan ingresar el comando es; 
+
+sudo adduser "cristiano"
