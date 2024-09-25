@@ -1,0 +1,36 @@
+VagrantFile parcial2B
+
+Vagrant.configure("2") do |config|
+
+  config.vm.define :maestro do |maestro|
+    maestro.vm.box = "bento/ubuntu-22.04"
+    maestro.vm.network :private_network, ip: "192.168.50.5"
+    maestro.vm.hostname = "maestro"
+  end
+
+  config.vm.define :esclavo do |esclavo|
+    esclavo.vm.box = "bento/ubuntu-22.04"
+    esclavo.vm.network :private_network, ip: "192.168.50.6"
+    esclavo.vm.hostname = "esclavo"
+  end
+
+  config.vm.define :firewall do |firewall|
+    firewall.vm.box = "bento/ubuntu-22.04"
+    firewall.vm.network :private_network, ip: "192.168.50.7"
+    firewall.vm.hostname = "firewall"
+  end
+end
+
+DNS OVER TLS
+sudo systemctl status systemd-resolved
+sudo systemctl enable systemd-resolved
+sudo systemctl start systemd-resolved
+
+
+sudo nano /etc/systemd/resolved.conf
+
+[Resolve]
+DNS=1.1.1.1 9.9.9.9  # Servidores DNS sobre TLS 
+DNSOverTLS=yes
+
+
